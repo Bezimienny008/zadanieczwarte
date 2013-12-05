@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=tytul
+comment0.target=Biografia(java.lang.String)
+comment1.params=tytul\ czyja\ realizm\ opis
+comment1.target=Biografia(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment2.params=
+comment2.target=java.lang.String\ dajRodzaj()
+comment3.params=
+comment3.target=java.lang.String\ dajOpis()
+numComments=4
