@@ -1,7 +1,9 @@
+import java.io.*;
+import java.util.*;
 class Biblioteka
 {
     String adres;
-    Ksiazka zbior [] = new Ksiazka [100];
+    public Set<Ksiazka> ksiegozbior = new HashSet<Ksiazka>();
     int iloscksiag;
     public  Biblioteka ( String adres )
     {
@@ -16,27 +18,21 @@ class Biblioteka
            System.out.println ("Biblioteki sa otwarte codziennie od 9:00 do 17:00.");
         }
     public void dodajKsiazke (Ksiazka tytul)
-       {
-           if (iloscksiag==100)
-           {
-                System.out.println ("Mamy już komplet ksiazek, przepraszamy.");
-                return;
-           }
-           zbior[iloscksiag]=tytul;
-           iloscksiag++;
+       {   
+           boolean i=ksiegozbior.add(tytul);
        }
     public void wypozyczKsiazke (String tytul)
     {
-            boolean jest=false;
-            for (int i=0; i<iloscksiag; i++)
+       boolean jest=false;
+            for (Ksiazka i: ksiegozbior)
                 {    
-                            if (tytul.equals(zbior[i].dajTytul()))
+                            if (tytul.equals(i.dajTytul()))
                             {
                                 jest=true;
-                                if(!zbior[i].czyWypozyczona())
+                                if(!i.czyWypozyczona())
                                 {
-                                    System.out.println( "Udało sie wypozyczyc Ksiazke" + zbior[i].dajTytul());
-                                    zbior[i].wypozycz();
+                                    System.out.println( "Udało sie wypozyczyc Ksiazke" + i.dajTytul());
+                                    i.wypozycz();
                                     return;
                                 }   
                             }
@@ -48,16 +44,22 @@ class Biblioteka
             }
             System.out.println( "Przykro nam, nie mamy takiej ksiazki.");
     }
+    
+    public int naStanie()
+    {
+        return ksiegozbior.size();
+    }
+    
     public void wypiszDostepneKsiazki ()
         {
             boolean czyjest=false;
-            for (int i=0; i<iloscksiag; i++)
+            for (Ksiazka i: ksiegozbior)
             {               
-                if(!zbior[i].czyWypozyczona())
+                if(!i.czyWypozyczona())
                       {
-                             System.out.println(zbior[i].dajTytul());
-                             System.out.println("\tGatunek: " + zbior[i].dajRodzaj());
-                             System.out.println("\tDane: " + zbior[i].dajOpis());                          
+                             System.out.println(i.dajTytul());
+                             System.out.println("\tGatunek: " + i.dajRodzaj());
+                             System.out.println("\tDane: " + i.dajOpis());                          
                              czyjest=true;
                       } 
                       
@@ -70,11 +72,11 @@ class Biblioteka
     public void oddajKsiazke(String tytul)
     {
         boolean jest=false;
-        for(int i=0; i<iloscksiag; i++)
+        for(Ksiazka i: ksiegozbior)
         {
-            if(tytul.equals(zbior[i].dajTytul()) && zbior[i].czyWypozyczona())
+            if(tytul.equals(i.dajTytul()) && i.czyWypozyczona())
             {
-                zbior[i].oddaj();
+                i.oddaj();
                 return;
              }
         }
@@ -85,6 +87,7 @@ class Biblioteka
         //Stworz dwie biblioteki
         Biblioteka pierwsza = new Biblioteka( "Armi Krajowej 24" );
         Biblioteka druga = new Biblioteka( "Plac Grunwaldzki 6" );
+        Biblioteka trzecia = new Biblioteka( "Norwida 10" );
 
         //Dodaj cztery ksiazki do pierwszej biblioteki
         pierwsza.dodajKsiazke( new Epopeja( "Pan Tadeusz", "ostatni zajazd szlachty na Litwie", "Epopeja narodowa z elementami gawedy szlacheckiej. Rozgrywa sie za czasow napoleonskich. Lektura szkolna.") );
@@ -127,6 +130,30 @@ class Biblioteka
         // Wypisz tytuly dostepne w pierwszej bibliotece
         System.out.println( "Ksiazki dostepne w pierwszej bibliotece" );
         pierwsza.wypiszDostepneKsiazki();
-    }
+        
+        try
+        {
+            BufferedReader wejscie = new BufferedReader(new FileReader("nowe_ksiazki.csv"));
+            String linia;
+            while( (linia=wejscie.readLine()) != null)
+            {
+                StringTokenizer token = new StringTokenizer(linia, "\t");
+                String tytul = token.nextToken();
+                String autor = token.nextToken();
+                String wydawnictwo = token.nextToken();
+                String opis = token.nextToken();
+                
+                trzecia.dodajKsiazke(new KsiazkaHistoryczna(tytul, autor, wydawnictwo, opis));
+            }
+            
+            wejscie.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println();
+        System.out.println("Liczba ksiazek w bibliotece przy ul. " + trzecia.wypiszAdres() + " wynosi: " + trzecia.naStanie());
+        }
 }
         

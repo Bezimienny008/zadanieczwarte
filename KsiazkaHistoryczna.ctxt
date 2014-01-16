@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=tytul
+comment0.target=KsiazkaHistoryczna(java.lang.String)
+comment1.params=tytul\ autor\ wydawnictwo\ opis
+comment1.target=KsiazkaHistoryczna(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment2.params=
+comment2.target=java.lang.String\ dajRodzaj()
+comment3.params=
+comment3.target=java.lang.String\ dajOpis()
+comment4.params=
+comment4.target=java.lang.String\ dajWyd()
+comment5.params=
+comment5.target=java.lang.String\ dajAutora()
+numComments=6

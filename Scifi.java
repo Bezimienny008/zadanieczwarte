@@ -1,6 +1,6 @@
 class Scifi extends Ksiazka
 {
-    String opis; // komentarz
+    String opis;
     String ziemia;
     String fantasy;
     String rok;
